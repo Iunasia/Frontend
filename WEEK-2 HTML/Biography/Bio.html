@@ -4,36 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Darren's Bio</title>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 8px;
-        } th, td {
-            text-align: left;
-        }
-    </style>
-    <h3>Join my team: </h3>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h3>Join my team:</h3>
     <form action="/submit-form.php" method="post">
-        
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name"><br><br>
 
-        <label for="email">email:</label><br>
+        <label for="email">Email:</label><br>
         <input type="email" id="email" name="email"><br><br>
 
         <label for="message">Feedback:</label><br>
-        <textarea id="message" name="message" row="4" cols="40"></textarea><br><br>
+        <textarea id="message" name="message" rows="4" cols="40"></textarea><br><br>
 
         <input type="checkbox" id="newsletter" name="newsletter">
-        <label for="newsletter">Sign Up to My News letter to get latest updates!</label><br><br>
+        <label for="newsletter">Sign up to my newsletter to get latest updates!</label><br><br>
 
-        <input type="submit" value="submit"><br><br>
-
+        <input type="submit" value="Submit"><br><br>
     </form>
 
-</head>
-<body>
     <div class="container">
         <img src="Araki Saori.jpg" class="profile-img" width="150" height="150" alt="In Uddam Darren">
         <h1>Hi, my name is <strong>In Uddam Darren!</strong></h1>
@@ -76,15 +66,24 @@
             </div>
         </section>
     </div>
+
+    <div>
+        <h3>My favorite song: </h3>
+        <audio controls>
+            <source src="sombr - back to friends (official video).mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <footer>
+        <div>
+            <p>&copy; 2025 Darren's Biography. All rights reserved.</p>
+            <nav>
+                <a href="/about">About</a> |
+                <a href="/contact">Contact</a> |
+                <a href="/privacy">Privacy Policy</a>
+            </nav>
+        </div>
+    </footer>
 </body>
-<footer>
-  <div>
-    <p>&copy; 2025 Darren's Biography. All rights reserved.</p>
-    <nav>
-      <a href="/about">About</a> |
-      <a href="/contact">Contact</a> |
-      <a href="/privacy">Privacy Policy</a>
-    </nav>
-  </div>
-</footer>
 </html>
