@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+body {
+    background-color: #040a12; 
+    font-family: 'Consolas', monospace; 
+    color: #c0e0ff; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.id-file-container {
+    background-color: #121c2b; 
+    padding: 30px;
+    max-width: 380px;
+    border: 2px solid #00c0ff; 
+    box-shadow: 0 0 15px rgba(0, 192, 255, 0.7); 
+}
+
+.file-header {
+    text-align: center;
+    border-bottom: 1px solid #00c0ff;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.lapd-logo-text {
+    font-size: 1.4em;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #f0f0f0;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+}
+
+.japanese-police-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #ffcc00;
+    margin-top: 5px;
+    text-shadow: 0 0 8px rgba(255, 204, 0, 0.8);
+}
+
+.unit-tag {
+    font-size: 0.8em;
+    color: #ffcc00;
+    margin-top: 5px;
+    letter-spacing: 2px;
+}
+
+.japanese-text {
+    font-family: 'Noto Sans JP', sans-serif; 
+    color: #ff6600; 
+    text-shadow: 0 0 4px rgba(255, 102, 0, 0.6); 
+}
+
+.id-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr; 
+    gap: 15px;
+    align-items: start;
+}
+
+.profile-photo {
+    width: 100%; 
+    max-width: 100px;
+    border: 2px solid #00c0ff;
+}
+
+.serial-number {
+    font-size: 0.75em;
+    color: #ff6600; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+.data-field {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1); 
+}
+
+.data-label {
+    font-size: 0.8em;
+    color: #99aabf; 
+    text-transform: uppercase;
+}
+
+.status-field {
+    border-bottom: 2px solid #00c0ff; 
+}
+
+.status-active {
+    color: #33ff33; 
+    font-weight: bold;
+    text-shadow: 0 0 5px #33ff33;
+}
+
+.clearance-text {
+    font-size: 0.75em;
+    color: #ff6600; 
+    margin: 20px 0;
+    font-style: italic;
+}
+
+.contact-btn {
+    background-color: #33ff33; 
+    color: #121c2b; 
+    padding: 8px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+    box-shadow: 0 0 10px #33ff33; 
+}
