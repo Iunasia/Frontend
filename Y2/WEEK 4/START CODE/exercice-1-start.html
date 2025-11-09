@@ -1,0 +1,70 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: pink;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background: rgb(91, 119, 48);
+        gap: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      header,
+      footer {
+        background: grey;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      main {
+        background: grey;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .sidebar,
+      .aside {
+        background: white;
+        flex-grow: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .content {
+        background: white;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>Header</header>
+      <main>
+        <div class="sidebar">Left</div>
+        <div class="content">Main</div>
+        <div class="aside">Right</div>
+      </main>
+      <footer>Footer</footer>
+    </div>
+  </body>
+</html>
