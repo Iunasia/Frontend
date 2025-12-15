@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #000;
+}
+
+.bg {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: url("bg.jpg") no-repeat center/cover;
+  padding: 20px;
+  color: white;
+}
+
+.top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.lang {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.title {
+  text-align: center;
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 40px 0;
+}
+
+.launch-btn {
+  margin: 20px 0;
+  padding: 15px 40px;
+  font-size: 22px;
+  border-radius: 30px;
+  border: none;
+  background: white;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.launch-btn:hover {
+  transform: scale(1.05);
+}
+
+.nav {
+  width: 60%;
+  background: white;
+  padding: 10px;
+  border-radius: 40px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.nav-item {
+  background: #ddd;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.nav-item.active {
+  background: black;
+  color: white;
+}
