@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Input handling</title>
+  </head>
+  <body>
+    <input type="text" id="username" placeholder="Your Name" />
+    <button id="greet-btn">Greet</button>
+    <p id="message"></p>
+  </body>
+  <script>
+    const button = document.getElementByI
+    d("greet-btn");
+    const input = document.getElementById("username");
+    const message = document.getElementById("message");
+
+    button.addEventListener("click", () => {
+      const name = input.value;
+      if (name === "") {
+        message.textContent = "please enter name";
+        message.style.color = "red";
+      } else {
+        message.textContent = "Hello, " + name + "!";
+        message.style.color = "black";
+      }
+    });
+  </script>
+</html>

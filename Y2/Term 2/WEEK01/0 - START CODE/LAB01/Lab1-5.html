@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The light switch</title>
+</head>
+<body>
+    <div id="room" style="width:200px; height:200px; background-color:rgb(255, 255, 255);"></div>
+    <button id="button-switch">Light Switch</button>
+    <p id="status">Light is ON</p>
+</body> 
+<script>
+  const room = document.getElementById("room");
+  const button = document.getElementById("button-switch");
+  const status = document.getElementById("status");
+
+  button.addEventListener("click", () => {
+    if (room.style.backgroundColor === "rgb(255, 255, 255)") {
+      room.style.backgroundColor = "black";
+      status.textContent = "Light is OFF";
+    } else {
+      room.style.backgroundColor = "white";
+      status.textContent = "Light is ON";
+    }
+  });
+</script>
+</html>
