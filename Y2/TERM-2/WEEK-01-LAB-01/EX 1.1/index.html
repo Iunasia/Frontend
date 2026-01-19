@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1.1 - The Selector Check</title>
+</head>
+<body>
+    <h1 id="main-Title">Hello World</h1>
+    <button id="change-Btn">Change Title</button>
+
+    <script>
+        const title = document.getElementById("main-Title");
+        const button = document.getElementById("change-Btn");
+
+        function handleClick(){
+            title.textContent = "Javascript is fun!";
+        }
+        button.addEventListener("click" , handleClick);
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1.10 - The Search Filter</title>
+</head>
+<body>
+    <input type="text" id="search-input" placeholder="Search item...">
+    <ul id="items-list"></ul>
+
+    <script>
+        let items = ["Book", "Pen", "Pencil", "Paper", "Backpack"];
+        const input = document.getElementById("search-input");
+        const list = document.getElementById("items-list");
+
+        render("");
+
+        function render(filterText){
+            list.innerHTML = "";
+
+            const filtered = items.filter(item =>
+                item.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+
+            for(let item of filtered){
+                const li = document.createElement("li");
+                li.textContent = item;
+                list.appendChild(li);
+            }
+        }
+        input.addEventListener("input" , ()=>{
+            render(input.value);
+        })
+    </script>
+</body>
+</html>

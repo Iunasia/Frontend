@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1.2 - Style Manipulation</title>
+</head>
+<body>
+    <div id="box" style="width: 100px; height: 100px; background-color: blue;"></div>
+    <button id="color-btn">Turn Red</button>
+
+    <script>
+        const bgBox = document.getElementById("box");
+        const button = document.getElementById("color-btn");
+        let isRed = false; 
+        
+        function toggle(){
+            if (isRed){
+                bgBox.style.backgroundColor = "blue";
+            } else {
+                bgBox.style.backgroundColor = "red";
+            }
+            isRed = !isRed;
+        }
+        button.addEventListener("click" , toggle);
+    </script>
+</body>
+</html>

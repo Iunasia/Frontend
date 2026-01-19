@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1.8 - Adding to a List (Dynamic)</title>
+</head>
+<body>
+    <input type="text" id="new-fruit">
+    <button id="add-btn">Add Fruit</button>
+    <ul id="fruit-list"></ul>
+
+    <script>
+        let fruits = ["Apple", "Banana", "Orange", "Mango"];
+        const list = document.getElementById("fruit-list");
+        const newFruit = document.getElementById("new-fruit");
+        const button = document.getElementById("add-btn");
+
+        renderFruits();
+
+        function renderFruits(){
+            list.innerHTML = "";
+
+            for(let i = 0 ; i < fruits.length ; i++){
+                let li = document.createElement("li");
+                li.innerText = fruits[i];
+                list.appendChild(li);               
+            }
+        }
+
+        button.addEventListener("click", ()=>{
+            let fruitName = newFruit.value.trim();
+            if(fruitName !== ""){
+                fruits.push(fruitName);
+                renderFruits();
+            }
+        })
+    </script>
+</body>
+</html>

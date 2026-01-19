@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Object rendering</title>
+</head>
+<body>
+    <div id="card">
+        <h3 id="user-name"></h3>
+        <p id="user-role"></p>
+    </div>
+<button id="load-user">Promote to Admin</button>
+</body>
+<script>
+    const user = {
+        
+        name: "Jane Doe",
+        role: "Student"
+    };
+
+    document.getElementById('load-user').addEventListener('click', () => {
+        document.getElementById('user-name').textContent = user.name;
+        document.getElementById('user-role').textContent = user.role;
+    });
+</script>
+</html>

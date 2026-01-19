@@ -1,0 +1,8 @@
+{
+    "github.copilot.renameSuggestions.triggerAutomatically": false,
+    "github.copilot.chat.summarizeAgentConversationHistory.enabled": false,
+    "debug.autoExpandLazyVariables": "off",
+    "debug.inlineValues": "auto",
+    "accessibility.verbosity.inlineChat": false,
+    "accessibility.verbosity.inlineCompletions": false
+}

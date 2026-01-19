@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1.6 - Simple Object Rendering</title>
+</head>
+<body>
+    <div id="card">
+        <h3 id="user-name"></h3>
+        <p id="user-role"></p>
+    </div>
+    <button id="promote-btn">Promote to Admin</button>
+
+    <script>
+        let user = { name: "Sok" , role: "Student"};
+        const name = document.getElementById("user-name");
+        const role = document.getElementById("user-role");
+        const button = document.getElementById("promote-btn");
+
+        render();
+
+        function render(){
+            name.textContent = user.name;
+            role.textContent = user.role;
+        }
+        button.addEventListener("click" , ()=>{
+            user.role = "Admin";
+            render();
+        })
+    </script>
+</body>
+</html>

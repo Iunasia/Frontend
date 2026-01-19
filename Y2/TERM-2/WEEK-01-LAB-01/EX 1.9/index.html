@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1.9 - Smart List (Objects + Style)</title>
+</head>
+<body>
+    <div id="tasks-container"></div>
+
+    <script>
+        let tasks = [
+            { title: "Do Homework", isUrgent: true },
+            { title: "Wash Dishes", isUrgent: false }
+        ];
+        const container = document.getElementById("tasks-container");
+
+        renderTasks();
+
+        function renderTasks(){
+            container.innerHTML = "";
+            
+            for(let i = 0 ; i < tasks.length ; i++){
+                let task = tasks[i];
+                let div = document.createElement("div");
+                div.textContent = task.title;
+                if(task.isUrgent){
+                    div.style.color = "red";
+                } else {
+                    div.style.color = "black";
+                }
+                container.appendChild(div);
+            }
+        }
+    </script>
+</body>
+</html>
