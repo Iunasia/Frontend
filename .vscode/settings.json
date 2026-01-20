@@ -4,5 +4,8 @@
     "debug.autoExpandLazyVariables": "off",
     "debug.inlineValues": "auto",
     "accessibility.verbosity.inlineChat": false,
-    "accessibility.verbosity.inlineCompletions": false
+    "accessibility.verbosity.inlineCompletions": false,
+    "javascript.preferences.jsxAttributeCompletionStyle": "braces",
+    "github.copilot.chat.codeGeneration.useInstructionFiles": false,
+    "github.copilot.chat.edits.suggestRelatedFilesFromGitHistory": false
 }
