@@ -1,0 +1,25 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Iunasia/HTML#readme",
+  "bugs": {
+    "url": "https://github.com/Iunasia/HTML/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iunasia/HTML.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "nodemon": "^3.1.11",
+    "save-dev": "^0.0.1-security"
+  }
+}

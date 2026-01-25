@@ -21,6 +21,13 @@ const SHOPPING_CART = [
 function getCartTotalAmount() {
   let result = 0;
   // Write your code here
+
+   for (const item of SHOPPING_CART) {
+    const product = PRODUCTS.find(p => p.id === item.id);
+    if (product) {
+      result += product.price * item.quantity;
+    }
+  }
   return result;
 }
 
@@ -37,7 +44,14 @@ function getCartTotalAmount() {
  */
 function addProductToCart(productId) {
   // Write your code here
+  const item = SHOPPING_CART.find(i => i.id === productId);
+  if (item) {
+    item.quantity += 1;
+  } else {
+    SHOPPING_CART.push({ id: productId, quantity: 1 });
+  }
 }
+
 
 /**
  *  TODO  : Complete this function to remove a product from the shopping cart
@@ -55,6 +69,15 @@ function addProductToCart(productId) {
  */
 function removeProductFromCart(productId) {
   // Write your code here
+  const index = SHOPPING_CART.findIndex(i => i.id === productId);
+
+  if (index === -1) return;
+
+  if (SHOPPING_CART[index].quantity > 1) {
+    SHOPPING_CART[index].quantity -= 1;
+  } else {
+    SHOPPING_CART.splice(index, 1);
+  }
 }
 
 // --------------------------------------------------------
