@@ -1,0 +1,19 @@
+import './App.css'
+
+function App() {
+  const task = ["Learn JSX", "Create Components", "Master State","Shower"];
+  return (
+    <div>
+      <h1>My Task List</h1>
+      <p>Total tasks: {task.length}</p>
+      <ul>
+        <li>{task[0]}</li>
+        <li>{task[1]}</li>
+        <li>{task[2]}</li>
+        <li>{task[3]}</li>
+      </ul>
+    </div>
+  );
+}
+
+export default App
