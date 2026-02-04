@@ -1,0 +1,9 @@
+MAIN DIFFERENCES OF HTML AND JSX
+
+1.HTML is a markup language for web pages while .jsx is a syntax for a react extension.
+2.HTML is recognized and read by the browser while .jsx need to be transpiled by babel in js that browser can read.
+3.HTML can't run scripts while .jsx file can have scripts inside {}
+4.HTML uses class, for; JSX uses className, htmlFor.
+5.HTML uses strings; JSX can use JS objects for inline styles.
+6.HTML has only elements but jsx has custom components.
+7.JSX must have a single parent while HTML doesn't do this.
