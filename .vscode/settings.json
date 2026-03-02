@@ -7,5 +7,6 @@
     "accessibility.verbosity.inlineCompletions": false,
     "javascript.preferences.jsxAttributeCompletionStyle": "braces",
     "github.copilot.chat.codeGeneration.useInstructionFiles": false,
-    "github.copilot.chat.edits.suggestRelatedFilesFromGitHistory": false
+    "github.copilot.chat.edits.suggestRelatedFilesFromGitHistory": false,
+    "git.ignoreLimitWarning": true
 }
