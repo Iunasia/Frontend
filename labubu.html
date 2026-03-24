@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>React Midterm Prep 🚀</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --card: #1a1a26;
+    --border: #2a2a3a;
+    --accent: #7c3aed;
+    --accent2: #06b6d4;
+    --accent3: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #0d1117;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; }
+  
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #0a1a2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .logo { font-size: 1.6rem; font-weight: 800; background: linear-gradient(90deg, #7c3aed, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .subtitle { color: var(--muted); font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
+  .progress-bar-wrap { flex: 1; min-width: 200px; background: var(--border); border-radius: 99px; height: 8px; }
+  .progress-bar { height: 8px; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.4s ease; width: 0%; }
+  .score-badge { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+  .score-badge span { color: var(--accent2); font-weight: 700; }
+
+  /* NAV TABS */
+  .nav { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; overflow-x: auto; }
+  .nav-btn { padding: 14px 22px; border: none; background: none; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 0.9rem; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active { color: var(--accent2); border-bottom-color: var(--accent2); font-weight: 600; }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* WEEK FILTER */
+  .week-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+  .week-btn { padding: 6px 16px; border-radius: 99px; border: 1px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; font-family: 'Syne', sans-serif; font-size: 0.8rem; transition: all 0.2s; }
+  .week-btn:hover, .week-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* QUIZ */
+  .quiz-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; transition: border-color 0.2s; animation: fadeUp 0.3s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .quiz-card.answered-correct { border-color: var(--green); }
+  .quiz-card.answered-wrong { border-color: var(--red); }
+  .q-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
+  .q-num { background: var(--accent); color: #fff; border-radius: 8px; padding: 4px 10px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+  .q-week { background: var(--card); border: 1px solid var(--border); color: var(--accent2); border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+  .q-text { font-size: 1rem; line-height: 1.6; color: var(--text); font-weight: 600; }
+  .code-snippet { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.7; color: #a8dadc; overflow-x: auto; white-space: pre; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; cursor: pointer; transition: all 0.18s; display: flex; gap: 12px; align-items: flex-start; font-size: 0.9rem; }
+  .option:hover:not(.disabled) { border-color: var(--accent2); color: var(--accent2); }
+  .option.selected-correct { background: rgba(16,185,129,0.12); border-color: var(--green); color: var(--green); }
+  .option.selected-wrong { background: rgba(239,68,68,0.12); border-color: var(--red); color: var(--red); }
+  .option.show-correct { background: rgba(16,185,129,0.08); border-color: var(--green); color: var(--green); }
+  .option.disabled { cursor: default; }
+  .option-letter { background: var(--border); border-radius: 6px; padding: 2px 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; min-width: 26px; text-align: center; }
+  .explanation { margin-top: 14px; padding: 12px 16px; background: rgba(124,58,237,0.1); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; font-size: 0.88rem; color: #c4b5fd; line-height: 1.6; display: none; }
+  .explanation.show { display: block; }
+
+  /* CONCEPT QUESTIONS */
+  .concept-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; animation: fadeUp 0.3s ease both; }
+  .concept-q { font-size: 1rem; font-weight: 600; margin-bottom: 14px; line-height: 1.5; }
+  .reveal-btn { background: linear-gradient(90deg, var(--accent), #6d28d9); border: none; color: #fff; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 600; transition: opacity 0.2s; }
+  .reveal-btn:hover { opacity: 0.85; }
+  .concept-answer { margin-top: 14px; padding: 14px 18px; background: rgba(6,182,212,0.08); border-left: 3px solid var(--accent2); border-radius: 0 8px 8px 0; font-size: 0.9rem; line-height: 1.7; display: none; color: #bae6fd; }
+  .concept-answer.show { display: block; }
+  .concept-answer code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #a8dadc; }
+
+  /* EXERCISES */
+  .ex-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; margin-bottom: 24px; animation: fadeUp 0.3s ease both; }
+  .ex-tag { display: inline-block; background: var(--accent3); color: #000; border-radius: 6px; padding: 3px 10px; font-size: 0.73rem; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; }
+  .ex-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+  .ex-desc { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px; }
+  .ex-code { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.8; color: #a8dadc; overflow-x: auto; white-space: pre; margin-bottom: 14px; }
+  .ex-hint-btn { background: none; border: 1px dashed var(--accent3); color: var(--accent3); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 0.82rem; transition: all 0.2s; margin-bottom: 10px; }
+  .ex-hint-btn:hover { background: rgba(245,158,11,0.1); }
+  .ex-hint { display: none; padding: 12px 16px; background: rgba(245,158,11,0.08); border-left: 3px solid var(--accent3); font-size: 0.88rem; color: #fde68a; line-height: 1.6; border-radius: 0 8px 8px 0; margin-bottom: 10px; }
+  .ex-hint.show { display: block; }
+  .ex-solution-btn { background: var(--green); border: none; color: #000; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; transition: opacity 0.2s; }
+  .ex-solution-btn:hover { opacity: 0.85; }
+  .ex-solution { display: none; margin-top: 14px; }
+  .ex-solution.show { display: block; }
+
+  /* CHEATSHEET */
+  .cheat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .cheat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  .cheat-title { font-size: 0.95rem; font-weight: 700; color: var(--accent2); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .cheat-title::before { content: ''; width: 10px; height: 10px; background: var(--accent2); border-radius: 50%; display: inline-block; }
+
+  /* SCORE / FINAL */
+  .final-banner { background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.2)); border: 1px solid var(--accent); border-radius: 20px; padding: 32px; text-align: center; margin-bottom: 32px; }
+  .final-score { font-size: 3.5rem; font-weight: 800; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stars { font-size: 2rem; margin: 10px 0; }
+  
+  /* BTN */
+  .btn-primary { background: linear-gradient(90deg, var(--accent), var(--accent2)); border: none; color: #fff; padding: 12px 26px; border-radius: 10px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 600; transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-outline { background: none; border: 1px solid var(--border); color: var(--muted); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 0.88rem; transition: all 0.2s; }
+  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; }
+  .section-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 24px; }
+
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; margin-right: 6px; }
+  .tag-w1 { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .tag-w2 { background: rgba(16,185,129,0.15); color: #34d399; }
+  .tag-w3 { background: rgba(124,58,237,0.15); color: #a78bfa; }
+  .tag-w4 { background: rgba(6,182,212,0.15); color: #67e8f9; }
+  .tag-w5 { background: rgba(244,63,94,0.15); color: #fb7185; }
+  .tag-w6 { background: rgba(99,102,241,0.15); color: #818cf8; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="logo">⚡ MidtermPrep</div>
+      <div class="subtitle">W1–W6 · JS ES6 + React · Intermediate Mode</div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="score-badge">Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('quiz')">📝 Quiz (25 Q)</button>
+    <button class="nav-btn" onclick="showSection('concepts')">💡 Concepts</button>
+    <button class="nav-btn" onclick="showSection('exercises')">💻 Exercises</button>
+    <button class="nav-btn" onclick="showSection('cheatsheet')">📋 Cheatsheet</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===================== QUIZ ===================== -->
+<div class="section active" id="section-quiz">
+  <h2>Multiple Choice Quiz</h2>
+  <p class="section-sub">25 questions across W1–W6. Click an answer to check it instantly.</p>
+  <div class="week-filter">
+    <button class="week-btn active" onclick="filterQuiz('all',this)">All</button>
+    <button class="week-btn" onclick="filterQuiz('W1',this)">W1</button>
+    <button class="week-btn" onclick="filterQuiz('W2',this)">W2</button>
+    <button class="week-btn" onclick="filterQuiz('W3',this)">W3</button>
+    <button class="week-btn" onclick="filterQuiz('W4',this)">W4</button>
+    <button class="week-btn" onclick="filterQuiz('W5',this)">W5</button>
+    <button class="week-btn" onclick="filterQuiz('W6',this)">W6</button>
+  </div>
+  <div id="quizContainer"></div>
+</div>
+
+<!-- ===================== CONCEPTS ===================== -->
+<div class="section" id="section-concepts">
+  <h2>Concept Questions</h2>
+  <p class="section-sub">Think of your answer first, then reveal it.</p>
+  <div id="conceptContainer"></div>
+</div>
+
+<!-- ===================== EXERCISES ===================== -->
+<div class="section" id="section-exercises">
+  <h2>Coding Exercises</h2>
+  <p class="section-sub">Solve each task. Use the hint if stuck, then check the solution.</p>
+  <div id="exerciseContainer"></div>
+</div>
+
+<!-- ===================== CHEATSHEET ===================== -->
+<div class="section" id="section-cheatsheet">
+  <h2>Quick Cheatsheet</h2>
+  <p class="section-sub">Key syntax and patterns for the midterm.</p>
+  <div class="cheat-grid" id="cheatContainer"></div>
+</div>
+
+</main>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const QUIZ = [
+  // W1
+  { week:'W1', q:'What does the arrow function syntax `const add = (a, b) => a + b;` return?', options:['undefined','a + b','null','an arrow'], correct:1, exp:'Arrow functions with no curly braces implicitly return the expression after =>.' },
+  { week:'W1', q:'Which keyword declares a block-scoped variable that can be reassigned?', options:['var','const','let','def'], correct:2, exp:'`let` is block-scoped and reassignable. `const` is block-scoped but cannot be reassigned.' },
+  { week:'W1', q:'What is the output of `console.log(typeof null)`?', options:['"null"','"undefined"','"object"','"boolean"'], correct:2, exp:'This is a famous JavaScript quirk — typeof null returns "object" due to a legacy bug.' },
+  // W2
+  { week:'W2', q:'Which ES6 array method returns a NEW array with each element transformed?', options:['.forEach()','.filter()','.find()','.map()'], correct:3, exp:'.map() transforms each element and returns a new array. .forEach() returns undefined.' },
+  { week:'W2', q:'What does `.filter()` return when no elements match the condition?', options:['null','undefined','[]','false'], correct:2, exp:'.filter() always returns an array — empty [] if nothing matches.' },
+  { week:'W2', q:'In ES6 modules, what keyword exports a value as the default?', options:['module.exports','export default','export const','require'], correct:1, exp:'`export default` allows importing without curly braces: `import MyThing from "./file"`.' },
+  { week:'W2', q:'Which statement correctly uses array destructuring?', options:['const {a,b} = arr;','const [a,b] = arr;','const (a,b) = arr;','let a,b = arr;'], correct:1, exp:'Square brackets [ ] are used for array destructuring, curly braces { } for object destructuring.' },
+  { week:'W2', code:`const arr = [1, 2, 3, 4, 5];
+const result = arr.filter(n => n % 2 === 0);`, q:'What is the value of `result`?', options:['[1,3,5]','[2,4]','[1,2,3,4,5]','[]'], correct:1, exp:'filter keeps elements where the callback returns true. Even numbers: 2 and 4.' },
+  // W3
+  { week:'W3', q:'In React, what does JSX compile to under the hood?', options:['HTML strings','React.createElement() calls','CSS-in-JS','TypeScript'], correct:1, exp:'JSX is syntactic sugar for React.createElement(). Babel transforms JSX into these function calls.' },
+  { week:'W3', q:'Why must React component names start with a capital letter?', options:['Convention only','So CSS targets them','React uses it to distinguish components from HTML tags','Performance reason'], correct:2, exp:'React uses the capitalisation to tell apart custom components (capital) from built-in HTML tags (lowercase).' },
+  { week:'W3', q:'What hook is used to add state to a functional component?', options:['useEffect','useContext','useState','useReducer'], correct:2, exp:'useState returns [stateValue, setterFunction] and triggers a re-render when the state changes.' },
+  { week:'W3', code:`const [count, setCount] = useState(0);
+setCount(count + 1);
+setCount(count + 1);`, q:'After the two setCount calls, what is count?', options:['0','1','2','Error'], correct:1, exp:'Both calls use the SAME stale `count` value (0). Result is 1. Use functional updates `setCount(c => c+1)` to avoid this.' },
+  // W4
+  { week:'W4', q:'In JSX, which attribute replaces the HTML `class` attribute?', options:['class','cssClass','className','htmlClass'], correct:2, exp:'`class` is a reserved word in JavaScript, so JSX uses `className` instead.' },
+  { week:'W4', q:'What is the correct way to apply inline styles in JSX?', options:['style="color:red"','style={color: "red"}','style={{color: "red"}}','style={"color: red"}'], correct:2, exp:'JSX inline styles use double curly braces: outer {} for JSX expression, inner {} for the JS object.' },
+  { week:'W4', code:`function App() {
+  const items = ["A","B","C"];
+  return <ul>{items.map((item,i) => <li>{item}</li>)}</ul>;
+}`, q:'What warning will appear in the console?', options:['SyntaxError','Each child in a list should have a unique "key" prop','Cannot read properties of undefined','useState not imported'], correct:1, exp:'React requires a unique `key` prop on list items for efficient reconciliation. Fix: <li key={i}>{item}</li>' },
+  { week:'W4', q:'What does the spread operator `...` do when used like `[...arr, newItem]`?', options:['Removes newItem from arr','Creates a shallow copy of arr with newItem appended','Mutates arr directly','Returns undefined'], correct:1, exp:'The spread operator expands arr elements into the new array. This is the React-safe way to add to state arrays.' },
+  // W5
+  { week:'W5', q:'What is "prop drilling"?', options:['A CSS technique','Passing props through components that do not use them, just to reach deeper children','A debugging tool','A Webpack plugin'], correct:1, exp:'Prop drilling becomes painful in deep trees. Solutions include Context API or state management libraries.' },
+  { week:'W5', q:'How do you pass a function as a prop so a child can call it?', options:['onAction={handleAction()}','onAction={handleAction}','onAction="handleAction"','onAction:handleAction'], correct:1, exp:'Pass the function reference WITHOUT calling it: `{handleAction}` not `{handleAction()}` — the latter executes it immediately.' },
+  { week:'W5', code:`const Child = ({ items }) => (
+  <ul>{items.map(i => <li key={i.id}>{i.name}</li>)}</ul>
+);`, q:'What prop type does Child expect?', options:['A string','A number','An array of objects with id and name','A boolean'], correct:2, exp:'The map() and i.id, i.name accessors tell us `items` must be an array of objects with `id` and `name` properties.' },
+  { week:'W5', q:'What is the `{children}` prop used for?', options:['Accessing child component state','Rendering whatever JSX is placed between the opening and closing tags of a component','Passing arrays to a component','Creating child routes'], correct:1, exp:'`{children}` is a special prop containing whatever is between <Component>...</Component> tags, enabling wrapper/layout patterns.' },
+  // W6
+  { week:'W6', q:'Which operator is best for conditional rendering of a single element in JSX?', options:['if/else','switch','&&','for'], correct:2, exp:'The `&&` short-circuit: `{condition && <Component />}` renders Component only if condition is truthy.' },
+  { week:'W6', code:`{isLoggedIn ? <Dashboard /> : <Login />}`, q:'What pattern is this?', options:['Short-circuit evaluation','Ternary operator conditional rendering','map() rendering','Fragment usage'], correct:1, exp:'This is a ternary operator: condition ? valueIfTrue : valueIfFalse. Renders Dashboard or Login based on isLoggedIn.' },
+  { week:'W6', q:'What does `useEffect(() => { ... }, [])` with an empty dependency array do?', options:['Runs on every render','Runs only once after the initial render','Never runs','Runs before render'], correct:1, exp:'Empty [] means the effect has no dependencies — it runs once after mount, similar to componentDidMount.' },
+  { week:'W6', q:'How do you safely read JSON from localStorage?', options:['localStorage.get("key")','JSON.parse(localStorage.getItem("key"))','localStorage.read("key")','localStorage["key"]'], correct:1, exp:'Use JSON.parse() to convert the stored JSON string back into a JavaScript object/array.' },
+  { week:'W6', code:`const AlertBox = ({ type, message }) => {
+  const styles = {
+    error: "bg-red-100 text-red-800",
+    success: "bg-green-100 text-green-800",
+  };
+  return <div className={styles[type]}>{message}</div>;
+};`, q:'What happens if type="warning" is passed?', options:['Throws an error','The div has className="undefined"','The div has no className','React crashes'], correct:1, exp:'`styles["warning"]` is undefined. In JSX, className={undefined} renders as no className attribute, but no error is thrown.' },
+];
+
+const CONCEPTS = [
+  { week:'W2', q:'Explain the difference between .map() and .forEach(). When would you use each?', a:'<b>.forEach()</b> iterates over an array and performs side effects (e.g., logging). It always returns <code>undefined</code>.<br><b>.map()</b> transforms each element and returns a <b>new array</b> of the same length. Use .map() in React to render lists. Use .forEach() when you only need the side effect, not a new array.' },
+  { week:'W2', q:'What is the difference between `export default` and named `export`? How do you import each?', a:'<b>Named export:</b> <code>export const add = () => {}</code> → import with curly braces: <code>import { add } from "./file"</code><br><b>Default export:</b> <code>export default MyClass</code> → import without curly braces: <code>import MyClass from "./file"</code><br>A file can have multiple named exports but only one default export.' },
+  { week:'W3', q:'What is the Virtual DOM and why does React use it?', a:'The Virtual DOM is a lightweight JavaScript copy of the real DOM. When state changes, React updates the Virtual DOM first, diffs it against the previous version (reconciliation), and then applies only the minimal changes to the real DOM. This is much faster than directly manipulating the real DOM on every change.' },
+  { week:'W3', q:'What are the JSX rules you must follow when writing React?', a:'1. Must return a <b>single root element</b> (use <code>&lt;&gt;&lt;/&gt;</code> Fragment if needed)<br>2. Use <code>className</code> instead of <code>class</code><br>3. Self-closing tags must close: <code>&lt;input /&gt;</code><br>4. Use camelCase for attributes: <code>onClick</code>, <code>onSubmit</code><br>5. JavaScript expressions go inside <code>{ }</code>' },
+  { week:'W4', q:'What is "lifting state up" in React?', a:'When two sibling components need to share the same state, you move (lift) that state to their closest common ancestor (parent). The parent holds the state and passes it down as props, and passes callback functions to allow children to update it. This is the fundamental React pattern for component communication.' },
+  { week:'W5', q:'Explain the difference between props and state.', a:'<b>Props</b>: Data passed FROM a parent TO a child. Read-only inside the child component. Think: function arguments.<br><b>State</b>: Data that lives INSIDE a component. Can change over time (using setState/useState). When state changes, the component re-renders. Think: local memory.' },
+  { week:'W6', q:'What are 3 ways to do conditional rendering in React?', a:'1. <b>if/else</b> before the return statement<br>2. <b>Ternary:</b> <code>{isLoggedIn ? &lt;Dashboard /&gt; : &lt;Login /&gt;}</code><br>3. <b>Short-circuit &&:</b> <code>{hasError && &lt;ErrorMessage /&gt;}</code><br>Option 1 is cleanest for complex logic. Options 2 and 3 work inline inside JSX.' },
+  { week:'W6', q:'What is the purpose of the `key` prop in React lists and what happens if you omit it?', a:'The <code>key</code> prop helps React identify which items in a list have changed, been added, or removed. React uses keys for efficient DOM reconciliation. Without keys: React shows a warning, and may re-render the wrong elements or lose component state when the list order changes. Keys must be unique among siblings.' },
+];
+
+const EXERCISES = [
+  {
+    week:'W2', tag:'JS Arrays', title:'Transform Numbers to Objects',
+    desc:'Write a `transformToObjects(listOfNumbers)` function that takes an array like [1, 2, 3] and returns [{val:1}, {val:2}, {val:3}].',
+    code:`function transformToObjects(listOfNumbers) {
+  // Your code here
+}
+
+// Test:
+console.log(transformToObjects([1, 2, 3]));
+// Expected: [{val: 1}, {val: 2}, {val: 3}]`,
+    hint:'Use .map() and return an object with a `val` key for each number.',
+    solution:`function transformToObjects(listOfNumbers) {
+  return listOfNumbers.map(num => ({ val: num }));
+}
+
+// The arrow function returns an object literal.
+// Wrap object in () to avoid {} being confused with function body.`
+  },
+  {
+    week:'W2', tag:'JS Arrays', title:'Shopping Cart Total',
+    desc:'Given PRODUCTS and SHOPPING_CART arrays, write `getCartTotalAmount()` that calculates the total cost.',
+    code:`const PRODUCTS = [
+  { id: 1, name: "Apple",  price: 2.5 },
+  { id: 2, name: "Banana", price: 1.5 },
+  { id: 3, name: "Orange", price: 3 },
+];
+const SHOPPING_CART = [
+  { id: 1, quantity: 2 },
+  { id: 3, quantity: 1 },
+];
+
+function getCartTotalAmount() {
+  // Your code here
+}
+// Expected: 8  (2 apples × 2.5 + 1 orange × 3)`,
+    hint:'For each cart item, use .find() on PRODUCTS to get the price, then multiply by quantity. Sum it all with .reduce().',
+    solution:`function getCartTotalAmount() {
+  return SHOPPING_CART.reduce((total, cartItem) => {
+    const product = PRODUCTS.find(p => p.id === cartItem.id);
+    return total + (product.price * cartItem.quantity);
+  }, 0);
+}
+// .reduce() accumulates the total.
+// .find() looks up the product price by ID.`
+  },
+  {
+    week:'W3', tag:'React Basics', title:'Fix the JSX Errors',
+    desc:'The code below has 3 JSX errors. Identify and fix all of them.',
+    code:`function App() {
+  const name = "World";
+  return (
+    <div class="container">
+      <h1>Hello, {name}!</h1>
+      <input type="text">
+      <p style="color: red">Welcome</p>
+    </div>
+  );
+}`,
+    hint:'Check: 1) CSS class attribute  2) Self-closing tags  3) Inline style syntax',
+    solution:`function App() {
+  const name = "World";
+  return (
+    <div className="container">      {/* class → className */}
+      <h1>Hello, {name}!</h1>
+      <input type="text" />          {/* Must self-close */}
+      <p style={{ color: "red" }}>Welcome</p>  {/* style={{object}} */}
+    </div>
+  );
+}`
+  },
+  {
+    week:'W4', tag:'React State', title:'Add & Delete Tasks',
+    desc:'Complete the addTask and deleteTask functions in this Todo app.',
+    code:`function App() {
+  const [tasks, setTasks] = useState(["Learn React"]);
+  const [input, setInput] = useState("");
+
+  const addTask = () => {
+    // Add input to tasks array (do not mutate directly!)
+    // Clear the input after adding
+  };
+
+  const deleteTask = (index) => {
+    // Remove the task at the given index
+  };
+
+  return (
+    <div>
+      <input value={input} onChange={e => setInput(e.target.value)} />
+      <button onClick={addTask}>Add</button>
+      <ul>
+        {tasks.map((t, i) => (
+          <li key={i}>{t} <button onClick={() => deleteTask(i)}>✕</button></li>
+        ))}
+      </ul>
+    </div>
+  );
+}`,
+    hint:'addTask: use spread operator [...tasks, newItem]. deleteTask: use .filter() with index.',
+    solution:`const addTask = () => {
+  if (!input.trim()) return;
+  setTasks([...tasks, input]);  // spread + append
+  setInput("");                  // clear input
+};
+
+const deleteTask = (index) => {
+  setTasks(tasks.filter((_, i) => i !== index));
+  // filter keeps all items EXCEPT the one at 'index'
+};`
+  },
+  {
+    week:'W5', tag:'Props', title:'Reusable UserCard Component',
+    desc:'Create a UserCard component that accepts a `user` prop (object with name, role, avatar) and renders it. Then render a list of 3 different users using this component.',
+    code:`// Data
+const USERS = [
+  { id: 1, name: "An Nguyen",   role: "Developer",  avatar: "👩‍💻" },
+  { id: 2, name: "Binh Tran",   role: "Designer",   avatar: "🎨" },
+  { id: 3, name: "Cam Le",      role: "PM",         avatar: "📋" },
+];
+
+// TODO: Create UserCard component here
+// It receives a 'user' prop and displays avatar, name, role
+
+function App() {
+  // TODO: Render UserCard for each user in USERS array
+}`,
+    hint:'Define `const UserCard = ({ user }) => ( ... )` then in App use `USERS.map(u => <UserCard key={u.id} user={u} />)`',
+    solution:`const UserCard = ({ user }) => (
+  <div style={{ border: "1px solid #ccc", padding: "12px", margin: "8px" }}>
+    <span style={{ fontSize: "2rem" }}>{user.avatar}</span>
+    <h3>{user.name}</h3>
+    <p>{user.role}</p>
+  </div>
+);
+
+function App() {
+  return (
+    <div>
+      {USERS.map(u => <UserCard key={u.id} user={u} />)}
+    </div>
+  );
+}`
+  },
+  {
+    week:'W6', tag:'Conditional', title:'Dynamic Alert Box',
+    desc:'Create an AlertBox component that renders with different Tailwind classes based on a `type` prop: "error"=red, "success"=green, "warning"=yellow. Handle the case where type is unknown.',
+    code:`const AlertBox = ({ type, message }) => {
+  // TODO: Create a styles lookup object
+  // Use a fallback for unknown types (gray)
+  return <div className={/* dynamic class */}>{message}</div>;
+};
+
+// Tests:
+// <AlertBox type="error" message="Something went wrong!" />
+// <AlertBox type="success" message="Saved successfully!" />
+// <AlertBox type="warning" message="Check your input." />`,
+    hint:'Create an object: `const styles = { error: "...", success: "...", warning: "..." }` then use `styles[type] || styles.default`',
+    solution:`const AlertBox = ({ type, message }) => {
+  const styles = {
+    error:   "bg-red-100 text-red-800 border border-red-300",
+    success: "bg-green-100 text-green-800 border border-green-300",
+    warning: "bg-yellow-100 text-yellow-800 border border-yellow-300",
+    default: "bg-gray-100 text-gray-800 border border-gray-300",
+  };
+
+  const className = styles[type] || styles.default;
+
+  return (
+    <div className={\`p-4 rounded-lg \${className}\`}>
+      {message}
+    </div>
+  );
+};`
+  },
+];
+
+const CHEATSHEET = [
+  { title:'Array Methods (W2)', content:`// map – transform each element
+[1,2,3].map(n => n * 2)       // [2,4,6]
+
+// filter – keep matching elements
+[1,2,3].filter(n => n > 1)   // [2,3]
+
+// find – first match (or undefined)
+[1,2,3].find(n => n > 1)     // 2
+
+// forEach – side effects, no return
+[1,2,3].forEach(n => console.log(n))
+
+// reduce – accumulate
+[1,2,3].reduce((acc,n) => acc+n, 0) // 6` },
+  { title:'ES6 Modules (W2)', content:`// Named exports
+export const add = (a,b) => a+b;
+export const PI = 3.14159;
+
+// Default export
+export default class User { }
+
+// Importing
+import User from './user';
+import { add, PI } from './calc';
+import * as calc from './calc';` },
+  { title:'JSX Rules (W3/W4)', content:`// ✅ Single root (or Fragment)
+return <> <h1/> <p/> </>
+
+// ✅ className, not class
+<div className="box">
+
+// ✅ Self-close empty tags
+<input type="text" />
+<img src="..." />
+
+// ✅ Expressions in { }
+<h1>Hello {name}!</h1>
+
+// ✅ Inline styles = object
+<p style={{ color: 'red', fontSize: '16px' }}>` },
+  { title:'useState Hook (W3)', content:`import { useState } from 'react';
+
+const [count, setCount] = useState(0);
+const [list,  setList]  = useState([]);
+const [user,  setUser]  = useState(null);
+
+// Never mutate state directly!
+// ❌ list.push(item)
+// ✅ setList([...list, item])` },
+  { title:'Props Patterns (W5)', content:`// Pass data down
+<Card name="An" age={20} />
+
+// Receive in child
+const Card = ({ name, age }) => ...
+// OR
+const Card = (props) => props.name
+
+// Pass object
+const user = { name:"An", age:20 };
+<Card user={user} />
+
+// Pass function (callback)
+<Child onDelete={handleDelete} />
+const Child = ({ onDelete }) =>
+  <button onClick={onDelete}>Delete</button>` },
+  { title:'Conditional Rendering (W6)', content:`// Ternary (either/or)
+{isLoggedIn ? <Dashboard /> : <Login />}
+
+// Short-circuit (show or nothing)
+{hasError && <ErrorMsg />}
+
+// if/else (before return)
+if (loading) return <Spinner />;
+
+// Dynamic className
+const cls = isActive ? "active" : "idle";
+<div className={cls}>` },
+  { title:'List Rendering (W4/W5)', content:`// Always add key prop!
+{items.map((item, index) => (
+  <li key={item.id}>{item.name}</li>
+))}
+
+// Delete item
+const del = (id) =>
+  setItems(items.filter(i => i.id !== id));
+
+// Update item
+const upd = (id, newVal) =>
+  setItems(items.map(i =>
+    i.id === id ? {...i, val: newVal} : i
+  ));` },
+  { title:'CRUD with State (W6)', content:`// CREATE
+setPosts([...posts, { id: Date.now(), text }]);
+
+// READ / FILTER
+const filtered = posts.filter(p =>
+  p.text.includes(searchTerm));
+
+// UPDATE (toggle)
+setPosts(posts.map(p =>
+  p.id === id ? {...p, done: !p.done} : p));
+
+// DELETE
+setPosts(posts.filter(p => p.id !== id));` },
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let quizScore = 0;
+let quizAnswered = 0;
+let totalQuestions = QUIZ.length;
+
+// ─── RENDER ────────────────────────────────────────────────────────────────────
+function renderQuiz(filter = 'all') {
+  const container = document.getElementById('quizContainer');
+  const filtered = filter === 'all' ? QUIZ : QUIZ.filter(q => q.week === filter);
+  document.getElementById('totalDisplay').textContent = totalQuestions;
+
+  container.innerHTML = filtered.map((q, globalIdx) => {
+    const realIdx = QUIZ.indexOf(q);
+    return `
+    <div class="quiz-card" id="qcard-${realIdx}" data-week="${q.week}">
+      <div class="q-header">
+        <span class="q-num">Q${realIdx + 1}</span>
+        <span class="q-week tag tag-${q.week.toLowerCase()}">${q.week}</span>
+        <span class="q-text">${q.q}</span>
+      </div>
+      ${q.code ? `<div class="code-snippet">${q.code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>` : ''}
+      <div class="options">
+        ${q.options.map((opt, i) => `
+          <div class="option" id="opt-${realIdx}-${i}" onclick="answerQuestion(${realIdx}, ${i})">
+            <span class="option-letter">${'ABCD'[i]}</span>
+            <span>${opt}</span>
+          </div>`).join('')}
+      </div>
+      <div class="explanation" id="exp-${realIdx}">${q.exp}</div>
+    </div>`;
+  }).join('');
+}
+
+function answerQuestion(qIdx, optIdx) {
+  const card = document.getElementById(`qcard-${qIdx}`);
+  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+
+  const q = QUIZ[qIdx];
+  const allOpts = card.querySelectorAll('.option');
+  allOpts.forEach(o => o.classList.add('disabled'));
+
+  if (optIdx === q.correct) {
+    document.getElementById(`opt-${qIdx}-${optIdx}`).classList.add('selected-correct');
+    card.classList.add('answered-correct');
+    quizScore++;
+  } else {
+    document.getElementById(`opt-${qIdx}-${optIdx}`).classList.add('selected-wrong');
+    document.getElementById(`opt-${qIdx}-${q.correct}`).classList.add('show-correct');
+    card.classList.add('answered-wrong');
+  }
+  document.getElementById(`exp-${qIdx}`).classList.add('show');
+  quizAnswered++;
+  document.getElementById('scoreDisplay').textContent = quizScore;
+  const pct = (quizAnswered / totalQuestions) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function filterQuiz(week, btn) {
+  document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderQuiz(week);
+}
+
+function renderConcepts() {
+  document.getElementById('conceptContainer').innerHTML = CONCEPTS.map((c, i) => `
+    <div class="concept-card">
+      <span class="tag tag-${c.week.toLowerCase()}">${c.week}</span>
+      <div class="concept-q">${c.q}</div>
+      <button class="reveal-btn" onclick="revealConcept(${i})">Reveal Answer</button>
+      <div class="concept-answer" id="ca-${i}">${c.a}</div>
+    </div>`).join('');
+}
+
+function revealConcept(i) {
+  document.getElementById(`ca-${i}`).classList.toggle('show');
+}
+
+function renderExercises() {
+  document.getElementById('exerciseContainer').innerHTML = EXERCISES.map((e, i) => `
+    <div class="ex-card">
+      <span class="ex-tag">${e.tag} · ${e.week}</span>
+      <div class="ex-title">${e.title}</div>
+      <div class="ex-desc">${e.desc}</div>
+      <div class="ex-code">${e.code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <button class="ex-hint-btn" onclick="toggleHint(${i})">💡 Show Hint</button>
+      <div class="ex-hint" id="hint-${i}">${e.hint}</div>
+      <button class="ex-solution-btn" onclick="toggleSolution(${i})">✅ Show Solution</button>
+      <div class="ex-solution" id="sol-${i}">
+        <div class="ex-code">${e.solution.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleHint(i) { document.getElementById(`hint-${i}`).classList.toggle('show'); }
+function toggleSolution(i) { document.getElementById(`sol-${i}`).classList.toggle('show'); }
+
+function renderCheatsheet() {
+  document.getElementById('cheatContainer').innerHTML = CHEATSHEET.map(c => `
+    <div class="cheat-card">
+      <div class="cheat-title">${c.title}</div>
+      <div class="code-snippet" style="font-size:0.76rem;">${c.content.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+    </div>`).join('');
+}
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderQuiz();
+renderConcepts();
+renderExercises();
+renderCheatsheet();
+document.getElementById('totalDisplay').textContent = totalQuestions;
+</script>
+</body>
+</html>
